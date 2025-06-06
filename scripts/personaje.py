@@ -8,7 +8,6 @@ class Personaje(pygame.sprite.Sprite):
         self.animation_speed = 0.1
         self.current_frame = 0
         self.speed=2
-        # Luego llamas a una función que recorte la spritesheet y devuelva la lista de frames
         self.frames_stay = self.animation('recursos/imagenes/stay.png', frame_height, frame_width, columna=3, fila=3, max_frames=9)
         self.frames_run = self.animation('recursos/imagenes/run.png', frame_height, frame_width, columna=3, fila=3, max_frames=8)
         self.frames_attack = self.animation('recursos/imagenes/pegar.png', frame_height, frame_width, columna=3, fila=3, max_frames=8)
@@ -37,7 +36,7 @@ class Personaje(pygame.sprite.Sprite):
             self.frames = self.frames_attack
             self.current_frame = 0
             self.timer = 0
-            self.actualizar_imagen(self.frames[self.current_frame])
+       
 
     def actualizar_imagen(self, frame):
         if self.facing_right:
@@ -63,7 +62,6 @@ class Personaje(pygame.sprite.Sprite):
 
 
 
-        # Si está atacando, reproducir solo la animación de ataque
         if self.is_attacking:
             self.timer += dt
             if self.timer >= self.animation_speed:
@@ -82,7 +80,6 @@ class Personaje(pygame.sprite.Sprite):
         en_movimiento = dx != 0 or dy != 0
 
 
-        # Cambiar animación
         if en_movimiento:
             if self.frames != self.frames_run:
                 self.frames = self.frames_run
@@ -94,7 +91,6 @@ class Personaje(pygame.sprite.Sprite):
                 self.current_frame = 0
                 self.timer = 0
 
-        # Actualizar frame de animación
         self.timer += dt
         if self.timer >= self.animation_speed:
             self.timer = 0
@@ -102,9 +98,7 @@ class Personaje(pygame.sprite.Sprite):
             self.actualizar_imagen(self.frames[self.current_frame])
 
 
-        # Movimiento
         self.rect.x += dx
         self.rect.y += dy
 
-        # Límite de pantalla (opcional)
         self.rect.clamp_ip(pygame.Rect(10,0,ventana_ancho, ventana_altura))
